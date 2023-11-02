@@ -1,24 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+
+import {
+  Modal,
+  ModalContent,
+  ModalTitle,
+  ModalFooter,
+  Paragraph,
+  SingleSelect,
+  SingleSelectData,
+} from "suomifi-ui-components";
+
+const items: SingleSelectData[] = [
+  { labelText: "foo", uniqueItemId: "foo" },
+  { labelText: "open modal", uniqueItemId: "open modal" },
+];
 
 function App() {
+  const [selectedItem, setSelectedItem] = useState<SingleSelectData | null>(
+    null,
+  );
+
+  const isModalVisible = selectedItem?.uniqueItemId === "open modal";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SingleSelect
+        items={items}
+        clearButtonLabel="something"
+        labelText='Select "open modal" from select'
+        itemAdditionHelpText="something"
+        ariaOptionsAvailableText="something"
+        onItemSelectionChange={setSelectedItem}
+        selectedItem={selectedItem}
+      />
+      <Modal appElementId="root" visible={isModalVisible}>
+        <ModalContent>
+          <ModalTitle>Modal example</ModalTitle>
+          <Paragraph>Some text</Paragraph>
+        </ModalContent>
+        <ModalFooter></ModalFooter>
+      </Modal>
     </div>
   );
 }
